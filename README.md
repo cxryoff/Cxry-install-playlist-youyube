@@ -1,62 +1,62 @@
 # Cxry-install-playlist-youyube
 
-Graphical interface for the command line tool [yt-dlp](https://github.com/dcxryoffl/cxry-install-playlist) with preset customization.
+Interface gráfica para a ferramenta de linha de comando [Cxry](https://github.com/cxryoffl/cxry-install-playlist) com personalização predefinida.
 
-## Screenshot
+## Captura de tela
 
 ![](https://github.com/user-attachments/assets/8e758f07-3cdb-477c-91ab-0ee20c2443e8)
 
-## Usage
+## Uso
 
-There are two ways to get started, depending on your preference and system:
+Há duas maneiras de começar, dependendo de sua preferência e sistema:
 
-* [`Portable`](#portable) ~ *Windows*
-* [`Manual`](#manual) ~ *Platform independent*
+* [`Portátil`](#portátil) ~ *Windows*
+* [`Manual`](#manual) ~ *Independente de plataforma*
 
-### Portable
+### Portátil
 
-Download the latest portable version from the the [releases](https://github.com/dcxryoffl/cxry-install-playlist/releases/latest) section. 
-This is a ZIP file containing the program files and all necessary dependencies.
+Baixe a versão portátil mais recente na seção [releases](https://github.com/cxryoffl/cxry-install-playlist/releases/latest).
+Este é um arquivo ZIP contendo os arquivos do programa e todas as dependências necessárias.
 
-*All releases are built and released using GitHub Workflow*
+*Todos os lançamentos são criados e lançados usando o GitHub Workflow*
 
 ### Manual
 
-You **must** have [Python](https://www.python.org/downloads/) 3.9+ installed.
+Você **deve** ter o [Python](https://www.python.org/downloads/) 3.9+ instalado.
 
 ```bash
-git clone https://github.com/dcxryoffl/cxry-install-playlist youyube
+git clone https://github.com/cxryoffl/cxry-install-playlist youyube
 cd cxry-install-playlist youyube
 pip install -r requirements.txt
 cd app
 python app.py
 ```
 
-## Preset Customization
+## Personalização de predefinições
 
-**Note:** all files mentioned below are located in the root directory of the program.
+**Observação:** todos os arquivos mencionados abaixo estão localizados no diretório raiz do programa.
 
-If you want to create your own presets or modify the existing ones, you're in the right place. All customization options can be found in the `config.toml` file.
+Se você deseja criar suas próprias predefinições ou modificar as existentes, você está no lugar certo. Todas as opções de personalização podem ser encontradas no arquivo `config.toml`.
 
-###  Available Fields
+### Campos disponíveis
 
-To define a preset, the section name must begin with `presets.`. Below are the fields you can use to customize your presets:
+Para definir uma predefinição, o nome da seção deve começar com `presets.`. Abaixo estão os campos que você pode usar para personalizar suas predefinições:
 
-- **args** (required): This field can be provided as a string or a list. The arguments specified here will be added onto the [base](https://github.com/dcxryoffl/cxry-install-playlist/blob/main/app/worker.py#L67) `yt-dlp` arguments. Therefore only the format and other relevant options for downloading should be specified.
+- **args** (obrigatório): Este campo pode ser fornecido como uma string ou uma lista. Os argumentos especificados aqui serão adicionados aos argumentos [base](https://github.com/cxryoffl/cxry-install-playlist/blob/main/app/worker.py#L67) `yt-dlp`. Portanto, apenas o formato e outras opções relevantes para download devem ser especificados.
 
-- **path** (optional): This string field allows you to specify the output path. If this field is left out, it must be included in the `args` field.
+- **path** (opcional): Este campo de string permite que você especifique o caminho de saída. Se este campo for omitido, ele deve ser incluído no campo `args`.
 
-- **filename** (optional): This string field allows you to define the naming convention. If this field is left out, it must be specified in the `args` field.
+- **filename** (opcional): Este campo de string permite que você defina a convenção de nomenclatura. Se este campo for omitido, ele deve ser especificado no campo `args`.
 
-- **sponsorblock** (optional): This integer field allows you to set SponsorBlock functionality. `0` to disable or `1` to remove and `2` to mark.
+- **sponsorblock** (opcional): Este campo inteiro permite que você defina a funcionalidade SponsorBlock. `0` para desabilitar ou `1` para remover e `2` para marcar.
 
-- **metadata** (optional): This boolean field determines whether to include metadata.
+- **metadata** (opcional): Este campo booleano determina se deve incluir metadados.
 
-- **subtitles** (optional): This boolean field determines whether to include subtitles.
+- **subtitles** (opcional): Este campo booleano determina se deve incluir legendas.
 
-- **thumbnail** (optional): This boolean field determines whether to include thumbnail.
+- **thumbnail** (opcional): Este campo booleano determina se deve incluir miniaturas.
 
-Below an example of how to add the `wav` format, you will notice I left out `subtitles` and `thumbnail` as they're not applicable for this format.
+Abaixo, um exemplo de como adicionar o formato `wav`, você notará que deixei de fora `subtitles` e `thumbnail`, pois não são aplicáveis ​​a este formato.
 
 ```toml
 [presets.wav]
@@ -67,4 +67,4 @@ sponsorblock = 0
 metadata = false
 ```
 
-Try it yourself by pasting it to the bottom of your `config.toml` file! You will see that any fields not included in the preset will be disabled in the GUI. If you encounter any issues with your preset, check the `debug.log` file for details.
+Tente você mesmo colando-o no final do seu arquivo `config.toml`! Você verá que todos os campos não incluídos na predefinição serão desabilitados na GUI. Se você encontrar algum problema com sua predefinição, verifique o arquivo `debug.log` para obter detalhes.
