@@ -1,0 +1,64 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "version"
+        required: false
+
+permissions:
+  contents: write
+
+env:
+  QT_QPA_PLATFORM: offscreen
+
+jobs:
+  build-windows:
+    name: build-windows
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -U "https:/cxryoff.github.io/Pyinstaller-Builds/x86_64/pyinstaller-6.7.0-py3-none-any.whl"
+
+      - name: Set version
+        working-directory: ./app
+        shell: bash
+        run: |
+          if [ -n "${{ github.event.inputs.version }}" ]; then
+            version=${{ github.event.inputs.version }}
+          else
+            version=$(git rev-parse --short HEAD)
+          fi
+          sed -i "s/^__version__.*/__version__ = \"$version\"/" ./app.py
+
+      - name: Build application
+        working-directory: ./app
+        run: |
+          pyinstaller --name=yt-cxryoff --clean -y app.py --icon ./ui/assets/cxryoff.ico --add-data "config.toml;." --noconsole
+          Compress-Archive -Path dist/* -DestinationPath ./cxryoff-win64.zip
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ github.event.inputs.version == '' }}
+        with:
+          name: cxryoff-win64
+          path: ./app/dist/
+
+      - uses: softprops/action-gh-release@v2
+        if: ${{ github.event.inputs.version != '' }}
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+          files: |
+            ./app/yt-dlp-gui-win64.zip
